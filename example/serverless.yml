@@ -1,0 +1,33 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: zocom
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: example
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  iam:
+    role: arn:aws:iam::497180550327:role/lecture-role
+
+build:
+  esbuild:
+    minify: true
+
+package:
+  individually: true
+
+functions:
+  GetTodos:
+    handler: functions/GetTodos/index.handler
+    events:
+      - httpApi:
+          path: /todos
+          method: get
+
+  PostTodo:
+    handler: functions/PostTodo/index.handler
+    events:
+      - httpApi:
+          path: /todos
+          method: post
